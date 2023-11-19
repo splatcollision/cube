@@ -148,6 +148,9 @@ const variables: Record<string, (...args: any) => any> = {
   webSockets: () => get('CUBEJS_WEB_SOCKETS')
     .default('false')
     .asBoolStrict(),
+  apiServerEnabled: () => get('CUBEJS_API_ENABLED')
+    .default('true')
+    .asBoolStrict(),
   rollupOnlyMode: () => get('CUBEJS_ROLLUP_ONLY')
     .default('false')
     .asBoolStrict(),

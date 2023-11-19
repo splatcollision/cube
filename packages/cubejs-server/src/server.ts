@@ -109,6 +109,14 @@ export class CubejsServer {
         throw new Error('CUBEJS_ENABLE_TLS has been deprecated and removed.');
       }
 
+      if (this.config.sqlPort || this.config.pgSqlPort) {
+        this.sqlServer = this.core.initSQLServer();
+        await this.sqlServer.init(this.config);
+      }
+
+      const apiEnabled = getEnv('apiServerEnabled');
+      const PORT = getEnv('port');
+      
       this.server = gracefulHttp(http.createServer(options, app));
 
       if (this.config.webSockets) {
@@ -116,19 +124,16 @@ export class CubejsServer {
         this.socketServer.initServer(this.server);
       }
 
-      if (this.config.sqlPort || this.config.pgSqlPort) {
-        this.sqlServer = this.core.initSQLServer();
-        await this.sqlServer.init(this.config);
+      if (apiEnabled) {
+        await this.server.listen(PORT);
       }
-
-      const PORT = getEnv('port');
-      await this.server.listen(PORT);
 
       return {
         app,
         port: PORT,
         server: this.server,
-        version
+        version,
+        isListeningHttp: apiEnabled,
       };
     } catch (e: any) {
       if (this.core.event) {

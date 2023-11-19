@@ -13,6 +13,17 @@ please check the relevant page on [Connecting to Data Sources][ref-config-db].
 
 </InfoBox>
 
+## `CUBEJS_API_ENABLED`
+
+A boolean flag to optionally disable the default REST HTTP API. 
+If you set this to 'false', you should probably configure the [SQL API][ref-sql-api] to be enabled instead.
+Use case for disabling the default API would be in constrained hosting environments, 
+such as Render, where only one HTTP port is available for use.
+
+| Possible Values | Default in Development | Default in Production |
+| --------------- | ---------------------- | --------------------- |
+| `true`, `false` | `true`                 | `true`                |
+
 ## `CUBEJS_API_SECRET`
 
 The secret key used to sign and verify JWTs. Generated on project scaffold with

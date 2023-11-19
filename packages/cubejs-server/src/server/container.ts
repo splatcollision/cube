@@ -238,9 +238,13 @@ export class ServerContainer {
 
     if (!embedded) {
       try {
-        const { version, port } = await server.listen();
-
-        console.log(`🚀 Cube API server (${version}) is listening on ${port}`);
+        const { version, port, isListeningHttp } = await server.listen();
+        if (isListeningHttp) {
+          console.log(`🚀 Cube API server (${version}) is listening on ${port}`);  
+        } else {
+          console.log(`🚫 Cube API server (${version}) is configured to be disabled. See CUBEJS_API_ENABLED environment variable.`);
+        }
+        
       } catch (e: any) {
         console.error('Fatal error during server start: ');
         console.error(e.stack || e);
